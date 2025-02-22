@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,24 +15,36 @@ import java.util.stream.Stream;
  */
 public class FileUtils1 {
 	private static final String INPUT_FILE_SEPARATOR = "[ \t]";
+	private static final String OUTPUT_FILE_VALUES_SEPARATOR = ",";
 
 	public static double[][] readMatrixFromFileStream(String fileName) {
-		List<ArrayList<Double>> matrixList = new ArrayList<>();
+		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble);
+		return DataUtils.convertToBiDimensionalArray(dataLists);
+	}
+
+	public static <T> List<ArrayList<T>> readMatrixFromFileStream(String fileName, Function<String, T> parser) {
+		List<ArrayList<T>> matrixList = new ArrayList<>();
 
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-			matrixList = stream.map(line -> Stream.of(line.trim().split(INPUT_FILE_SEPARATOR))
-							.map(Double::parseDouble)
+			matrixList = stream
+					.map(line -> Stream.of(line.trim().split(INPUT_FILE_SEPARATOR))
+							.map(parser)
 							.collect(Collectors.toCollection(ArrayList::new)))
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return DataUtils.convertToBiDimensionalArray(matrixList);
+		return matrixList;
+	}
+
+	public static void writePatternSetToFile(String fileName, double[][] patternMatrix) {
+		writePatternSetToFile(fileName, patternMatrix, OUTPUT_FILE_VALUES_SEPARATOR);
 	}
 
 	public static void writePatternSetToFile(String fileName, double[][] patternMatrix, String separator) {
-		StringBuilder stringBuilder = new StringBuilder();
+		var stringBuilder = new StringBuilder();
+
 		for (double[] row : patternMatrix) {
 			for (int i = 0; i < row.length; i++) {
 				stringBuilder.append(row[i]);
