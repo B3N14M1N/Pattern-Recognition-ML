@@ -6,7 +6,7 @@ import ro.usv.rf.utils.StatisticsUtils;
 
 import java.util.Map;
 
-public class MainClass {
+public class Lab2 {
 	public static void main(String[] args) {
 		double[][] patternSet = FileUtils1.readMatrixFromFileStream("input/in.txt");
 		int numberOfPatterns = patternSet.length;
