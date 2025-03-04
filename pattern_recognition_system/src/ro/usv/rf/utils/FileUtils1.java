@@ -18,16 +18,20 @@ public class FileUtils1 {
 	private static final String OUTPUT_FILE_VALUES_SEPARATOR = ",";
 
 	public static double[][] readMatrixFromFileStream(String fileName) {
-		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble);
+		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble, INPUT_FILE_SEPARATOR);
+		return DataUtils.convertToBiDimensionalArray(dataLists);
+	}
+	public static double[][] readMatrixFromFileStream(String fileName, String separator) {
+		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble, separator);
 		return DataUtils.convertToBiDimensionalArray(dataLists);
 	}
 
-	public static <T> List<ArrayList<T>> readMatrixFromFileStream(String fileName, Function<String, T> parser) {
+	public static <T> List<ArrayList<T>> readMatrixFromFileStream(String fileName, Function<String, T> parser, String separator) {
 		List<ArrayList<T>> matrixList = new ArrayList<>();
 
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
 			matrixList = stream
-					.map(line -> Stream.of(line.trim().split(INPUT_FILE_SEPARATOR))
+					.map(line -> Stream.of(line.trim().split(separator))
 							.map(parser)
 							.collect(Collectors.toCollection(ArrayList::new)))
 					.collect(Collectors.toList());
