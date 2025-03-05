@@ -15,7 +15,7 @@ public class DistanceMatrix {
 		return matDist;
 	}
 
-	public double getDist(int i, int j) {
+	public double d(int i, int j) {
 		return matDist[i][j];
 	}
 
@@ -53,19 +53,16 @@ public class DistanceMatrix {
 		int n = matDist.length;
 		double[][] result = new double[2][n];
 
-		// Create an array of indices
 		Integer[] indices = new Integer[n];
 		for (int j = 0; j < n; j++) {
 			indices[j] = j;
 		}
 
-		// Sort indices based on distances from pattern i
 		Arrays.sort(indices, Comparator.comparingDouble(j -> matDist[i][j]));
 
-		// Populate result matrix
 		for (int k = 0; k < n; k++) {
-			result[0][k] = indices[k];        // Sorted indices
-			result[1][k] = matDist[i][indices[k]]; // Corresponding distances
+			result[0][k] = indices[k];
+			result[1][k] = matDist[i][indices[k]];
 		}
 
 		return result;
