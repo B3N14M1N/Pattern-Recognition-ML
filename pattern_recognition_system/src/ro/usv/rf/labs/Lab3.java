@@ -1,6 +1,7 @@
 package ro.usv.rf.labs;
 
 import ro.usv.rf.misc.DistanceMatrix;
+import ro.usv.rf.utils.DataUtils;
 import ro.usv.rf.utils.DistanceUtils;
 import ro.usv.rf.utils.FileUtils1;
 
@@ -18,8 +19,12 @@ public class Lab3 {
 
 		double[][] patternSet = FileUtils1.readMatrixFromFileStream(inputFile);
 
-		DistanceMatrix distMat = new DistanceMatrix(patternSet, DistanceUtils::distManhattan,  DistanceUtils::distChebyshev);
+		System.out.println("Manhattan distance for the pattern set:");
+		DistanceMatrix distMat = new DistanceMatrix(patternSet, DistanceUtils::distManhattan);
 		System.out.println(distMat);
 		FileUtils1.writePatternSetToFile(outputFile, distMat.getMatDist());
+
+		System.out.println("Distance neighbors for pattern 0:");
+		DataUtils.printMatrix(distMat.neighbors(0));
 	}
 }

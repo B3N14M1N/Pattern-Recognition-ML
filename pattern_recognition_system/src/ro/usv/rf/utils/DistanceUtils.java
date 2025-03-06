@@ -6,7 +6,7 @@ package ro.usv.rf.utils;
  */
 public class DistanceUtils {
 	public static double distEuclid(double[] x, double[] y) {
-		if (x.length != y.length) throw new SpatiiDeDimensiuniDiferite(
+		if (x.length != y.length) throw new DifferentDimensionsException(
 				"(" + x.length + ", " + y.length + ")");
 
 		double d = 0;
@@ -17,7 +17,7 @@ public class DistanceUtils {
 	}
 
 	public static double distManhattan(double[] x, double[] y) {
-		if (x.length != y.length) throw new SpatiiDeDimensiuniDiferite(
+		if (x.length != y.length) throw new DifferentDimensionsException(
 				"(" + x.length + ", " + y.length + ")");
 
 		double d = 0;
@@ -28,7 +28,7 @@ public class DistanceUtils {
 	}
 
 	public static double distChebyshev(double[] x, double[] y) {
-		if (x.length != y.length) throw new SpatiiDeDimensiuniDiferite(
+		if (x.length != y.length) throw new DifferentDimensionsException(
 				"(" + x.length + ", " + y.length + ")");
 
 		double d = 0;
@@ -41,8 +41,8 @@ public class DistanceUtils {
 	}
 }
 
-class SpatiiDeDimensiuniDiferite extends RuntimeException {
-	public SpatiiDeDimensiuniDiferite(String message) {
+class DifferentDimensionsException extends RuntimeException {
+	public DifferentDimensionsException(String message) {
 		super(message);
 	}
 }
