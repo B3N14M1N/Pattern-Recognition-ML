@@ -21,6 +21,7 @@ public class FileUtils1 {
 		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble, INPUT_FILE_SEPARATOR);
 		return DataUtils.convertToBiDimensionalArray(dataLists);
 	}
+
 	public static double[][] readMatrixFromFileStream(String fileName, String separator) {
 		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble, separator);
 		return DataUtils.convertToBiDimensionalArray(dataLists);
@@ -32,8 +33,10 @@ public class FileUtils1 {
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
 			matrixList = stream
 					.map(line -> Stream.of(line.trim().split(separator))
+							.filter(data -> !data.isEmpty())
 							.map(parser)
 							.collect(Collectors.toCollection(ArrayList::new)))
+					.filter(data -> !data.isEmpty())
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,7 +1,5 @@
 package ro.usv.rf.utils;
 
-import ro.usv.rf.Pattern;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,39 +18,51 @@ public class StatisticsUtils {
 		return average;
 	}
 
-	public static Map<Pattern, Integer> getPatternsMapFromInitialSet(double[][] patternSet) {
-		Map<Pattern, Integer> patternsMap = new HashMap<>();
+	public static Map<Pattern, Double> getPatternsMapFromInitialSet(double[][] patternSet) {
+		Map<Pattern, Double> patternsMap = new HashMap<>();
 		for (double[] set : patternSet) {
 			var pattern = new Pattern(set);
 			if (!patternsMap.containsKey(pattern)) {
-				patternsMap.put(pattern, 0);
+				patternsMap.put(pattern, 0.0);
 			}
 			patternsMap.put(pattern, patternsMap.get(pattern) + 1);
 		}
 		return patternsMap;
 	}
 
-	public static double[] calculateWeightedAverages(Map<Pattern, Integer> patternsMap, int numberOfFeatures) {
+	public static double[] getPatternWeigths(Map<Pattern, Double> patternsMap) {
+		return patternsMap.values().stream()
+				.mapToDouble(Double::doubleValue)
+				.toArray();
+	}
+
+	public static double[][] getPatterns(Map<Pattern, Double> patternsMap) {
+		return patternsMap.keySet().stream()
+				.map(Pattern::getPatternValues)
+				.toArray(double[][]::new);
+	}
+
+	public static double[] calculateWeightedAverages(Map<Pattern, Double> patternsMap, int numberOfFeatures) {
 		double[] weightedAverages = new double[numberOfFeatures];
-		int totalNumberOfPatterns = patternsMap.values().stream().mapToInt(Integer::intValue).sum();
+		int totalNumberOfPatterns = patternsMap.values().stream().mapToInt(Double::intValue).sum();
 
 		for (var dataSet : patternsMap.keySet()) {
 			for (int i = 0; i < numberOfFeatures; i++) {
-				weightedAverages[i] += dataSet.getPatternValues()[i] * ((double) patternsMap.get(dataSet) /totalNumberOfPatterns);
+				weightedAverages[i] += dataSet.getPatternValues()[i] * ((double) patternsMap.get(dataSet) / totalNumberOfPatterns);
 			}
 		}
 
 		return weightedAverages;
 	}
 
-	public static double[] calculateWeightedPatternFrequency(Map<Pattern, Integer> patternsMap){
+	public static double[] calculateWeightedPatternFrequency(Map<Pattern, Double> patternsMap) {
 		int totalNumberOfSets = patternsMap.size();
-		int totalNumberOfPatterns = patternsMap.values().stream().mapToInt(Integer::intValue).sum();
+		int totalNumberOfPatterns = patternsMap.values().stream().mapToInt(Double::intValue).sum();
 		int i = 0;
 		double[] patternFrequency = new double[totalNumberOfSets];
 
 		for (var dataSet : patternsMap.values()) {
-			patternFrequency[i++] = (double) dataSet /totalNumberOfPatterns;
+			patternFrequency[i++] = (double) dataSet / totalNumberOfPatterns;
 		}
 
 		return patternFrequency;

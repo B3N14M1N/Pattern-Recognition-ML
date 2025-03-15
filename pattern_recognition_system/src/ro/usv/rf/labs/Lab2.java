@@ -1,10 +1,7 @@
 package ro.usv.rf.labs;
 
-import ro.usv.rf.Pattern;
 import ro.usv.rf.utils.FileUtils1;
 import ro.usv.rf.utils.StatisticsUtils;
-
-import java.util.Map;
 
 public class Lab2 {
 	public static void main(String[] args) {
@@ -22,7 +19,7 @@ public class Lab2 {
 			System.out.println("Feature average: " + featureAverages[j]);
 		}
 
-		Map<Pattern, Integer> patternsMap = StatisticsUtils.getPatternsMapFromInitialSet(patternSet);
+		var patternsMap = StatisticsUtils.getPatternsMapFromInitialSet(patternSet);
 		double[] weightedAverages = StatisticsUtils.calculateWeightedAverages(patternsMap, numberOfFeatures);
 		double[] patternFrequency = StatisticsUtils.calculateWeightedPatternFrequency(patternsMap);
 		double[] dispersions = StatisticsUtils.calculateFeatureDispersion(patternSet, featureAverages);
