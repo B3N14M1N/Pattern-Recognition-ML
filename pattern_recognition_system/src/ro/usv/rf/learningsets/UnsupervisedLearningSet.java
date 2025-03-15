@@ -1,7 +1,10 @@
 package ro.usv.rf.learningsets;
 
 import ro.usv.rf.utils.FileUtils1;
+import ro.usv.rf.utils.Pattern;
 import ro.usv.rf.utils.StatisticsUtils;
+
+import java.util.Map;
 
 public class UnsupervisedLearningSet {
 	protected double[][] X;  // the pattern matrix
@@ -33,6 +36,14 @@ public class UnsupervisedLearningSet {
 		p = X == null || X[0] == null ? 0 : X[0].length;
 		// TODO check if all the patterns have the same number of features
 		//            if not throw an Exception
+		validatePatterns(X);
+		if (f == null && !this.getClass().equals(SupervisedLearningSet.class)) {
+			f = calculateWeightsValues();
+		}
+		this.f = f;
+	}
+
+	public void validatePatterns(double[][] X){
 		try {
 			if (X == null)
 				throw new Exception("Pattern set is null");
@@ -43,19 +54,15 @@ public class UnsupervisedLearningSet {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		if (f == null) {
-			f = this.calculateWeightsValues();
-		}
-		this.f = f;
 	}
 
 	public double[] calculateWeightsValues() {
-		// TODO: replace it by counting identical pattern
-		//  if a reduced set is produce update tve value of n
-		var patterns = StatisticsUtils.getPatternsMapFromInitialSet(X);
-		X = StatisticsUtils.getPatterns(patterns);
+		/// TODO
+		/// LAB4 Problem 2
+		Map<Pattern, Double> patterns = StatisticsUtils.getPatternsMapFromInitialSet(X);
+		X = StatisticsUtils.getPatterns(patterns); // returns double[][]
 		n = X.length;
-		f = StatisticsUtils.getPatternWeigths(patterns);
+		f = StatisticsUtils.getPatternWeigths(patterns); // returns only the weights double[]
 		return f;
 	}
 

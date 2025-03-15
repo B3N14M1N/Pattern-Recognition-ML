@@ -15,18 +15,18 @@ public class Lab4 {
 
 	public static void demoSupervisedLearningSet() {
 
-		double[][] x = new double[][]{
+		/*double[][] x = new double[][]{
 				{1, 5}, {5, 2}, {3, 5}, {3, 3.5}};
 		SupervisedLearningSet setSuperv1 = new SupervisedLearningSet(x, new int[]{1, 2, 1, 2});
 		System.out.println("Set 1 - X[][] is provided and iClass[]:\n" + setSuperv1);
-
+*/
 		SupervisedLearningSet setSuperv2 = new SupervisedLearningSet("file.txt", null);
 		System.out.println("Set 2 - file.txt with numeric class:\n" + setSuperv2);
 
-		String[] numeClase = new String[]{"", "A", "B", "C"};
+		/*String[] numeClase = new String[]{"", "A", "B", "C"};
 		SupervisedLearningSet setSuperv3 = new SupervisedLearningSet("testexam_numeric.txt", numeClase);
 		System.out.println("Set 3 - testexam_numeric.txt + classNames[M+1]:\n" + setSuperv3);
-
+*/
 	}
 
 	public static void demoClassifier_1NN() {
@@ -56,7 +56,7 @@ public class Lab4 {
 		System.out.println(separatorLine);
 		demoSupervisedLearningSet();
 		System.out.println(separatorLine);
-		demoClassifier_1NN();
+		//demoClassifier_1NN();
 	}
 
 }

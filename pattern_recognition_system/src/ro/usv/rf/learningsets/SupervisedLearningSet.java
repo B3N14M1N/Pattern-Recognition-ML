@@ -1,7 +1,11 @@
 package ro.usv.rf.learningsets;
 
+import ro.usv.rf.utils.Pattern;
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SupervisedLearningSet extends UnsupervisedLearningSet {
@@ -38,11 +42,62 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 	}
 
 	public double[] calculateWeightsValues() {
-		double[] f = new double[X.length];
-		Arrays.fill(f, 2.);  // TODO: replace it by counting identical patterns
-		// check if 2 identical patterns has same class (must be!)
-		// if a reduced set is produce update the value of n
-		return f;
+		/// TODO
+		/// LAB4 Problem 2
+		// Check if there are any patterns to process
+		if (X == null || X.length == 0) {
+			return new double[0];
+		}
+
+		// Create a map to store patterns and their weights
+		Map<Pattern, Double> patternsMap = new HashMap<>();
+		// Create a map to store patterns and their class indices
+		Map<Pattern, Integer> patternClassMap = new HashMap<>();
+
+		// Process each pattern
+		for (int i = 0; i < X.length; i++) {
+			Pattern pattern = new Pattern(X[i]);
+
+			if (patternsMap.containsKey(pattern)) {
+				// Pattern already exists, check if classes match
+				if (patternClassMap.get(pattern) != iClass[i]) {
+					// If classes don't match, throw an exception
+					throw new RuntimeException("Identical patterns with different classes found: " +
+							Arrays.toString(X[i]) +
+							" with classes " + patternClassMap.get(pattern) +
+							" and " + iClass[i]);
+				}
+				// Update weight
+				patternsMap.put(pattern, patternsMap.get(pattern) + 1.0);
+			} else {
+				// New pattern
+				patternsMap.put(pattern, 1.0);
+				patternClassMap.put(pattern, iClass[i]);
+			}
+		}
+
+		// Create new arrays for the reduced set
+		int newSize = patternsMap.size();
+		double[][] newX = new double[newSize][];
+		double[] newF = new double[newSize];
+		int[] newIClass = new int[newSize];
+
+		// Fill the new arrays
+		int index = 0;
+		for (Map.Entry<Pattern, Double> entry : patternsMap.entrySet()) {
+			Pattern pattern = entry.getKey();
+			newX[index] = pattern.getPatternValues();
+			newF[index] = entry.getValue();
+			newIClass[index] = patternClassMap.get(pattern);
+			index++;
+		}
+
+		// Update the class fields
+		this.X = newX;
+		this.iClass = newIClass;
+		this.n = newSize;
+
+		return newF;
 	}
 
 	private void fillSupervisedFieldsValues(double[][] X, int[] iClass, String[] classNames) {
@@ -52,6 +107,8 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 		// TODO check if all the patterns have the same number of features
 		//            if not throw an Exception
 		//       Use the method you will write in super class.
+		validatePatterns(X);
+
 		if (iClass != null) {
 			this.iClass = iClass;
 			this.classNames = classNames != null ? classNames : obtainClassNames(iClass);
@@ -61,7 +118,7 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 			Arrays.fill(iClass, 0);
 			M = 0;    // no classes defined; in fact is not a supervised set
 		}
-		this.f = this.calculateWeightsValues();
+		this.f = calculateWeightsValues();
 	}
 
 	public static String[] obtainClassNames(int[] iClass) {
