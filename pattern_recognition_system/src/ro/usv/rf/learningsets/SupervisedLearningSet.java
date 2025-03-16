@@ -104,10 +104,9 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 		this.X = X;
 		n = X == null ? 0 : X.length;
 		p = X == null || X[0] == null ? 0 : X[0].length;
-		// TODO check if all the patterns have the same number of features
-		//            if not throw an Exception
-		//       Use the method you will write in super class.
-		validatePatterns(X);
+		/// TODO
+		/// LAB4 Problem 2
+		super.validatePatterns(X);
 
 		if (iClass != null) {
 			this.iClass = iClass;

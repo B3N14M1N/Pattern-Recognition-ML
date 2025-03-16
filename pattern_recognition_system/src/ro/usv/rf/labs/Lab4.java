@@ -3,6 +3,9 @@ package ro.usv.rf.labs;
 import ro.usv.rf.classifiers.Classifier_1NN;
 import ro.usv.rf.learningsets.SupervisedLearningSet;
 import ro.usv.rf.learningsets.UnsupervisedLearningSet;
+import ro.usv.rf.utils.DistanceUtils;
+
+import static ro.usv.rf.classifiers.Classifier_1NN.classifyAndDisplayResult;
 
 public class Lab4 {
 
@@ -15,31 +18,38 @@ public class Lab4 {
 
 	public static void demoSupervisedLearningSet() {
 
-		/*double[][] x = new double[][]{
+		double[][] x = new double[][]{
 				{1, 5}, {5, 2}, {3, 5}, {3, 3.5}};
 		SupervisedLearningSet setSuperv1 = new SupervisedLearningSet(x, new int[]{1, 2, 1, 2});
 		System.out.println("Set 1 - X[][] is provided and iClass[]:\n" + setSuperv1);
-*/
+
 		SupervisedLearningSet setSuperv2 = new SupervisedLearningSet("file.txt", null);
 		System.out.println("Set 2 - file.txt with numeric class:\n" + setSuperv2);
 
-		/*String[] numeClase = new String[]{"", "A", "B", "C"};
+		String[] numeClase = new String[]{"", "A", "B", "C"};
 		SupervisedLearningSet setSuperv3 = new SupervisedLearningSet("testexam_numeric.txt", numeClase);
 		System.out.println("Set 3 - testexam_numeric.txt + classNames[M+1]:\n" + setSuperv3);
-*/
+
 	}
 
 	public static void demoClassifier_1NN() {
+		// for Problem 3.1.
 		String[] numeClase = new String[]{"", "A", "B", "C"};
 		SupervisedLearningSet setSuperv3 = new SupervisedLearningSet("testexam_numeric.txt", numeClase);
+		Classifier_1NN nnClassifier_1nn = new Classifier_1NN(DistanceUtils::distManhattan);
+		setSuperv3.getF()[3] = 2; // to prove ambiguities solution
+		nnClassifier_1nn.train(setSuperv3);
+		System.out.println("indiceClasa (cf. dist CityBlock)=" + nnClassifier_1nn.predict(new double[]{2, 4}));
 
+		nnClassifier_1nn = new Classifier_1NN(); //Euclidian Distance
+		nnClassifier_1nn.train(setSuperv3);
+		System.out.println("indiceClasa (cf. dist. Euclidiene)=" + nnClassifier_1nn.predict(new double[]{2, 4}));
 
-		Classifier_1NN classif_1NN_Euclid = new Classifier_1NN();  //Euclidian Distance
-		classif_1NN_Euclid.train(setSuperv3);
-		int cls2 = classif_1NN_Euclid.predict(new double[]{2, 4});
-		System.out.println("class index  ( dist. Euclidian)=" + cls2 +
-				" <" + setSuperv3.getClassNames()[cls2] + ">");
-
+		// for Problem 3.2.
+		nnClassifier_1nn.setDebug(false);
+		double[][] testSet = new double[][]{{2, 4}, {4, 2}, {10, 5}, {5, 5}};
+		classifyAndDisplayResult(nnClassifier_1nn, setSuperv3.getClassNames(), testSet);
+		classifyAndDisplayResult(nnClassifier_1nn, setSuperv3.getClassNames(), setSuperv3.getX());
 
 		// to check RunTime exceptions:
 		//classif_1NN_CityBlock.train((double[][])null);   //no data set provided
@@ -56,7 +66,7 @@ public class Lab4 {
 		System.out.println(separatorLine);
 		demoSupervisedLearningSet();
 		System.out.println(separatorLine);
-		//demoClassifier_1NN();
+		demoClassifier_1NN();
 	}
 
 }

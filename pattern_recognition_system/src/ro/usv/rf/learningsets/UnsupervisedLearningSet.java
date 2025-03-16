@@ -43,7 +43,7 @@ public class UnsupervisedLearningSet {
 		this.f = f;
 	}
 
-	public void validatePatterns(double[][] X){
+	public void validatePatterns(double[][] X) {
 		try {
 			if (X == null)
 				throw new Exception("Pattern set is null");
