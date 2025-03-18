@@ -6,8 +6,6 @@ import ro.usv.rf.utils.IDistance;
 import java.util.Arrays;
 
 public class Classifier_KNN extends AbstractClassifier {
-
-
 	IDistance d;
 	int k;
 	private boolean debug = true;
