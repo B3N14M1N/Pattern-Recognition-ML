@@ -14,12 +14,30 @@ import java.util.stream.Stream;
  * @grupa 3143A
  */
 public class FileUtils1 {
-	private static final String INPUT_FILE_SEPARATOR = "[ \t]";
+	private static String inputFileValuesSeparator = "[ \t]";
 	private static final String OUTPUT_FILE_VALUES_SEPARATOR = ",";
 
+	public static void setinputFileValuesSeparator(String separator) {
+		inputFileValuesSeparator = separator;
+	}
+
+	public static void setinputFileValuesSeparator() {
+		inputFileValuesSeparator = "\\s+";
+	}
+
 	public static double[][] readMatrixFromFileStream(String fileName) {
-		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble, INPUT_FILE_SEPARATOR);
+		var dataLists = readMatrixFromFileStream(fileName, Double::parseDouble, inputFileValuesSeparator);
 		return DataUtils.convertToBiDimensionalArray(dataLists);
+	}
+	protected static String[][] readStringMatrixFromFileStream(String fileName) {
+		try (Stream<String> stream = Files.lines(Paths.get(fileName)))
+		{
+			return stream.map(Line -> Line.split(inputFileValuesSeparator))
+					.toArray(String[][]::new);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static double[][] readMatrixFromFileStream(String fileName, String separator) {

@@ -1,0 +1,11 @@
+EVALAREA PERFORMANTEI CLASIFICATORULUI
+
+Nr.   Cls.fis.   Cls.calc
+1.       1          1
+2.       1          2   *
+3.       2          2
+4.       3          3
+
+Nr. forme clasificate corect = 3
+Acuratetea clasificarii = 75 %
+

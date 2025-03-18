@@ -1,6 +1,7 @@
 package ro.usv.rf.learningsets;
 
 import ro.usv.rf.utils.Pattern;
+import ro.usv.rf.utils.StringInputAdapter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,6 +24,10 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 		fillSupervisedFieldsValues(X, iClass, null);
 	}
 
+	public SupervisedLearningSet(double[][] X, int[] iClass, String[] classNames) {
+		fillSupervisedFieldsValues(X, iClass, classNames);
+	}
+
 	// This constructor is designed for cases where the user
 	// has used numbers to indicate class labels and the last
 	// column of X (the matrix returned by the UnsupervisedLearningSet constructor)
@@ -39,6 +44,12 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 			iClass[i] = (int) X[i][p - 1];
 		}
 		fillSupervisedFieldsValues(newX, iClass, classNames);
+	}
+
+	public SupervisedLearningSet(String dataFileName) {
+		StringInputAdapter stringInputAdapter = new StringInputAdapter(dataFileName);
+		fillSupervisedFieldsValues(stringInputAdapter.getX(),
+				stringInputAdapter.getiClass(), stringInputAdapter.getClassNames());
 	}
 
 	public double[] calculateWeightsValues() {
@@ -134,6 +145,23 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 		return classNames;
 	}
 
+	public void doSameClassIndexAs(SupervisedLearningSet trainingSet) {
+		if (this.M > trainingSet.M)
+			throw new RuntimeException("Test set has a greater number of classes than training set (" + M + ">" + trainingSet.M);
+		List<String> classNamesTrainingSetList = Arrays.asList(trainingSet.classNames);
+		int index;
+		for (int i = 0; i < n; i++) {
+			if (iClass[i] == 0)
+				continue;
+			index = classNamesTrainingSetList.indexOf(classNames[iClass[i]]);
+			if (index < 0)
+				throw new RuntimeException("In the test set there is a class \"" +
+						classNames[iClass[i]] + "\" that is not in the training set");
+			iClass[i] = index;
+		}
+		this.classNames = Arrays.copyOf(trainingSet.classNames, M + 1);
+	}
+
 	public int[] getIClass() {
 		return iClass;
 	}
@@ -148,9 +176,7 @@ public class SupervisedLearningSet extends UnsupervisedLearningSet {
 		StringBuilder sBuilder = new StringBuilder(linii[0]).append("\n");
 		for (int i = 0; i < n; i++)
 			sBuilder.append(linii[i + 2])
-					.append(String.format("   <%s>", classNames[iClass[i]])).append("\n");
+					.append(String.format("   <%s>  - %d", classNames[iClass[i]], iClass[i])).append("\n");
 		return sBuilder.toString();
 	}
-
-
 }

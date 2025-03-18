@@ -15,6 +15,8 @@ public abstract class AbstractClassifier {
 	protected String[] classNames;
 	protected double[][] w;
 
+	private int[] iClassCalculated;
+
 	abstract public void training();
 
 	abstract public int predict(double[] z);
@@ -83,6 +85,37 @@ public abstract class AbstractClassifier {
 
 	private void train(double[][] X, double[] f) {
 		train(X, f, null, null);
+	}
+
+	// ---------------------- Classifier Accuracy Evaluation ------------
+	public double evaluateAccuracy(SupervisedLearningSet testSet, boolean print) {
+		return evaluateAccuracy(testSet.getX(), testSet.getIClass(), print);
+	}
+
+	public double evaluateAccuracy(boolean print) {
+		return evaluateAccuracy(X, iClass, print);
+	}
+
+	public double evaluateAccuracy(double X[][], int iClass[], boolean print) {
+		iClassCalculated = predict(X);
+		int nbCorrectClassified = 0;
+		if (print)
+			System.out.println("Classifier performance evaluation \nNr.\tCls.fis\tCls.calc");
+		for (int i = 0; i < X.length; i++) {
+			boolean sameClassification = iClass[i] == iClassCalculated[i];
+			if (print) {
+				System.out.println((i + 1) + ".\t" + classNames[iClass[i]] + "\t" +
+						classNames[iClassCalculated[i]] +
+						(sameClassification ? "" : "  *"));
+			}
+			nbCorrectClassified += sameClassification ? 1 : 0;
+		}
+		double accuracy = (double) nbCorrectClassified / X.length;
+		if (print) {
+			System.out.println("\nNr. of patterns correctly classified  =" + nbCorrectClassified);
+			System.out.println("Accuracy =" + String.format(" %.3f %%", accuracy * 100));
+		}
+		return accuracy;
 	}
 
 	public double[][] getClassifierModel() {
