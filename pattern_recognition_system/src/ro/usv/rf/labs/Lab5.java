@@ -65,7 +65,6 @@ public class Lab5 {
 				int iClass = classifier_kNN.predict(testSet);
 				System.out.println(Arrays.toString(Arrays.stream(testSet).toArray()) + " class index = " + iClass + " <"
 						+ countyLearningSet.getClassNames()[iClass] + ">");
-
 			}
 		}
 	}
