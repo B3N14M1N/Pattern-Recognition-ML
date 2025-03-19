@@ -29,7 +29,6 @@ public class Classifier_1NN extends AbstractClassifier {
 	}
 
 	//TODO: implement predict method
-
 	@Override
 	public int predict(double[] z) {
 		if (X == null || X.length == 0)

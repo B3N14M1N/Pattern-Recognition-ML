@@ -2,7 +2,11 @@ package ro.usv.rf.labs;
 
 import ro.usv.rf.classifiers.Classifier_KNN;
 import ro.usv.rf.learningsets.SupervisedLearningSet;
+import ro.usv.rf.utils.DistanceUtils;
 import ro.usv.rf.utils.FileUtils1;
+import ro.usv.rf.utils.IDistance;
+
+import java.util.Arrays;
 
 public class Lab5 {
 
@@ -30,29 +34,51 @@ public class Lab5 {
 			kNNclassifier.evaluateAccuracy(testSetz15, true);   // test with other patterns
 		}
 
+		// problem 3
+		System.out.print("\n\n************* (dist. Euclidian) *************");
+		problem3(DistanceUtils::distEuclid);
+		System.out.print("\n\n************* (dist. Manhattan) *************");
+		problem3(DistanceUtils::distManhattan);
+		System.out.print("\n\n************* (dist. Chebyshev) *************");
+		problem3(DistanceUtils::distChebyshev);
 
-		//Problem 3
+		// problem 4
+		problem4(setSuperv5);
+	}
+
+	private static void problem3(IDistance distance) {
 		FileUtils1.setinputFileValuesSeparator(","); // by default is white spaces
 		SupervisedLearningSet countyLearningSet = new SupervisedLearningSet("county_data.txt");
-		//prints more than 13.000 lines
-		//System.out.println("Set 6 - test_data.csv + classNames[M+1]:\n" + countyLearningSet);
-		Classifier_KNN classif_kNN_Euclid = new Classifier_KNN(9); // Euclidian Distance	
-		classif_kNN_Euclid.train(countyLearningSet);
-		int iclass = classif_kNN_Euclid.predict(new double[]{25.89, 47.56});
-		System.out.println("class index  ( dist. Euclidian)=" + iclass + " <"
-				+ countyLearningSet.getClassNames()[iclass] + ">");
+		Classifier_KNN classifier_kNN = new Classifier_KNN(9, distance);
+		classifier_kNN.train(countyLearningSet);
+		double[][] testSets = new double[][]{{25.89, 47.56},
+				{24, 45.15},
+				{25.33, 45.44}
+		};
+		int[] kNN = new int[]{9, 11, 17, 31};
 
-		// Problem 4
+		for (int k : kNN) {
+			System.out.println("\n\n*************  k = " + k + "  *************");
+			classifier_kNN.setK(k);
+
+			for (double[] testSet : testSets) {
+				int iClass = classifier_kNN.predict(testSet);
+				System.out.println(Arrays.toString(Arrays.stream(testSet).toArray()) + " class index = " + iClass + " <"
+						+ countyLearningSet.getClassNames()[iClass] + ">");
+
+			}
+		}
+	}
+
+	private static void problem4(SupervisedLearningSet supervisedSet){
 		for (int k = 1; k < 9; k += 2) {
 			System.out.println("\n\n*************  k = " + k + "  *************");
 			// build classifier for k neighbors
-			Classifier_KNN kNNclassifier = new Classifier_KNN(k); // Euclidian Distance	
+			Classifier_KNN classifier = new Classifier_KNN(k); // Euclidian Distance
 			// train classifier
-			kNNclassifier.train(setSuperv5);
+			classifier.train(supervisedSet);
 			// Self test evaluation
-			kNNclassifier.evaluateAccuracy(true);   // test with other patterns
+			classifier.evaluateAccuracy(true);   // test with other patterns
 		}
-
-
 	}
 }
