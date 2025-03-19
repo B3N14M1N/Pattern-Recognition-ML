@@ -1,4 +1,4 @@
-package ro.usv.rf;
+package ro.usv.rf.utils;
 
 import java.util.Arrays;
 
