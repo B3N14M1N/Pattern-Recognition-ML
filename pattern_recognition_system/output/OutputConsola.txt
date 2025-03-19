@@ -1,0 +1,317 @@
+Loading MNIST datasets...
+Training data loaded: 10000 samples
+Test data loaded: 1000 samples
+
+
+************* (dist. Euclidian) *************
+
+*************  k = 3  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 3 ms
+Testing...
+Testing time: 9532 ms
+Accuracy: 91.90%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 10 ms
+Testing...
+Testing time: 8568 ms
+Accuracy: 46.80%
+
+
+*************  k = 7  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9521 ms
+Accuracy: 91.60%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8524 ms
+Accuracy: 17.40%
+
+
+*************  k = 9  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9679 ms
+Accuracy: 91.30%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 8491 ms
+Accuracy: 25.50%
+
+
+*************  k = 11  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9569 ms
+Accuracy: 91.10%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 8667 ms
+Accuracy: 14.60%
+
+
+*************  k = 17  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9616 ms
+Accuracy: 90.70%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8404 ms
+Accuracy: 21.50%
+
+
+*************  k = 31  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9848 ms
+Accuracy: 89.60%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8422 ms
+Accuracy: 9.60%
+
+
+************* (dist. Manhattan) *************
+
+*************  k = 3  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9287 ms
+Accuracy: 90.40%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8203 ms
+Accuracy: 46.90%
+
+
+*************  k = 7  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9395 ms
+Accuracy: 90.00%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8153 ms
+Accuracy: 19.20%
+
+
+*************  k = 9  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 9521 ms
+Accuracy: 89.70%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8706 ms
+Accuracy: 26.90%
+
+
+*************  k = 11  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9613 ms
+Accuracy: 89.50%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8150 ms
+Accuracy: 15.40%
+
+
+*************  k = 17  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9450 ms
+Accuracy: 88.70%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8256 ms
+Accuracy: 25.50%
+
+
+*************  k = 31  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 9913 ms
+Accuracy: 87.90%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8350 ms
+Accuracy: 9.30%
+
+
+************* (dist. Chebyshev) *************
+
+*************  k = 3  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 8724 ms
+Accuracy: 65.30%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8167 ms
+Accuracy: 29.40%
+
+
+*************  k = 7  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 8206 ms
+Accuracy: 67.70%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 7908 ms
+Accuracy: 16.60%
+
+
+*************  k = 9  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 8207 ms
+Accuracy: 66.60%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 7912 ms
+Accuracy: 20.30%
+
+
+*************  k = 11  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 8254 ms
+Accuracy: 67.10%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 8045 ms
+Accuracy: 13.80%
+
+
+*************  k = 17  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 8486 ms
+Accuracy: 64.70%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 2 ms
+Testing...
+Testing time: 8220 ms
+Accuracy: 17.30%
+
+
+*************  k = 31  *************
+
+--- Standard KNN (Max Heap) ---
+Training...
+Training time: 0 ms
+Testing...
+Testing time: 8371 ms
+Accuracy: 65.30%
+
+--- KD-Tree KNN ---
+Training...
+Training time: 1 ms
+Testing...
+Testing time: 7827 ms
+Accuracy: 9.60%
+
+Process finished with exit code 0

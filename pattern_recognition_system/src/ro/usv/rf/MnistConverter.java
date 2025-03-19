@@ -5,8 +5,9 @@ import ro.usv.rf.learningsets.SupervisedLearningSet;
 import java.io.*;
 
 /**
- * @author Beniamin Cioban
- * @grupa 3143A
+ * Fully generated with Claude Sonnet 3.7
+ * @author Beniamin Cioban??
+ * @grupa 3143A??
  * Utility class to convert MNIST data to SupervisedLearningSet format
  */
 

@@ -1,24 +1,51 @@
 package ro.usv.rf.classifiers;
 
+import ro.usv.rf.utils.DistanceUtils;
+import ro.usv.rf.utils.IDistance;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.PriorityQueue;
 
 /**
+ * Partially generated with Claude Sonnet 3.7
  * @author Beniamin Cioban
  * @grupa 3143A
  */
 public class Classifier_KNNWithKDTree extends AbstractClassifier {
+	IDistance d;
 	private int k;
 	private boolean debug = false;
 	private KDTree kdTree;
 
-	public Classifier_KNNWithKDTree(int k) {
-		super();
+	public IDistance getD() {
+		return d;
+	}
+
+	public void setD(IDistance d) {
+		this.d = d;
+	}
+
+	public int getK() {
+		return k;
+	}
+
+	public void setK(int k) {
 		this.k = k;
 	}
 
+	public Classifier_KNNWithKDTree(int k) {
+		super();
+		this.k = k;
+		this.d = DistanceUtils::distEuclid;
+	}
+
+	public Classifier_KNNWithKDTree(int k, IDistance d) {
+		super();
+		this.k = k;
+		this.d = d;
+	}
 	@Override
 	public void training() {
 		if (M == 0)
@@ -145,7 +172,7 @@ public class Classifier_KNNWithKDTree extends AbstractClassifier {
 			}
 
 			// Calculate distance to current node
-			double distance = calculateEuclideanDistance(target, node.point);
+			double distance = d.distance(target, node.point);
 
 			// Skip if this is the same point as target (for self-testing)
 			if (distance > 1e-10) {
@@ -196,17 +223,5 @@ public class Classifier_KNNWithKDTree extends AbstractClassifier {
 				this.axis = axis;
 			}
 		}
-	}
-
-	/**
-	 * Calculate Euclidean distance between two points
-	 */
-	private double calculateEuclideanDistance(double[] a, double[] b) {
-		double sum = 0.0;
-		for (int i = 0; i < a.length; i++) {
-			double diff = a[i] - b[i];
-			sum += diff * diff;
-		}
-		return Math.sqrt(sum);
 	}
 }

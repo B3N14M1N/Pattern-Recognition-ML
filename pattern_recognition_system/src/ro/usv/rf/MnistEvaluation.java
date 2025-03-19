@@ -3,6 +3,8 @@ package ro.usv.rf;
 import ro.usv.rf.classifiers.Classifier_KNN;
 import ro.usv.rf.classifiers.Classifier_KNNWithKDTree;
 import ro.usv.rf.learningsets.SupervisedLearningSet;
+import ro.usv.rf.utils.DistanceUtils;
+import ro.usv.rf.utils.IDistance;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -10,13 +12,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * @author Beniamin Cioban
- * @grupa 3143A
+ * Partially generated with Claude Sonnet 3.7
+ * @author Beniamin Cioban??
+ * @grupa 3143A??
  */
 public class MnistEvaluation {
 
 	// Number of neighbors for kNN algorithm
-	private static final int K = 5;
+	private static final int K = 3;
 
 	// Sample size for training and testing (use smaller values for quicker testing)
 	private static final int TRAIN_SAMPLE_SIZE = 10000; // Max 60000 for MNIST
@@ -37,11 +40,39 @@ public class MnistEvaluation {
 			System.out.println("Training data loaded: " + trainingSet.getX().length + " samples");
 			System.out.println("Test data loaded: " + testSet.getX().length + " samples");
 
-			// Test standard kNN implementation
-			System.out.println("\n--- Standard KNN (Max Heap) ---");
 			Classifier_KNN standardKnn = new Classifier_KNN(K);
 			standardKnn.setDebug(false);
+			Classifier_KNNWithKDTree kdTreeKnn = new Classifier_KNNWithKDTree(K);
 
+			System.out.print("\n\n************* (dist. Euclidian) *************");
+			TestMNIST(DistanceUtils::distEuclid, trainingSet, testSet, standardKnn, kdTreeKnn);
+			System.out.print("\n\n************* (dist. Manhattan) *************");
+			TestMNIST(DistanceUtils::distManhattan, trainingSet, testSet, standardKnn, kdTreeKnn);
+			System.out.print("\n\n************* (dist. Chebyshev) *************");
+			TestMNIST(DistanceUtils::distChebyshev, trainingSet, testSet, standardKnn, kdTreeKnn);
+
+
+		} catch (IOException e) {
+			System.err.println("Error loading MNIST data: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	private static void TestMNIST(IDistance distance,
+	                              SupervisedLearningSet trainingSet,
+	                              SupervisedLearningSet testSet,
+	                              Classifier_KNN standardKnn,
+	                              Classifier_KNNWithKDTree kdTreeKnn) {
+		int[] kNN = new int[]{3, 7, 9, 11, 17, 31};
+		for (int k : kNN) {
+			System.out.println("\n\n*************  k = " + k + "  *************");
+			standardKnn.setK(k);
+			kdTreeKnn.setK(k);
+			standardKnn.setD(distance);
+			kdTreeKnn.setD(distance);
+
+			// Test standard kNN implementation
+			System.out.println("\n--- Standard KNN (Max Heap) ---");
 			// Train and measure time
 			System.out.println("Training...");
 			long startTime = System.currentTimeMillis();
@@ -60,8 +91,6 @@ public class MnistEvaluation {
 
 			// Test KD-Tree implementation
 			System.out.println("\n--- KD-Tree KNN ---");
-			Classifier_KNNWithKDTree kdTreeKnn = new Classifier_KNNWithKDTree(K);
-
 			// Train and measure time
 			System.out.println("Training...");
 			startTime = System.currentTimeMillis();
@@ -77,10 +106,6 @@ public class MnistEvaluation {
 
 			System.out.println("Testing time: " + (endTime - startTime) + " ms");
 			System.out.println("Accuracy: " + String.format("%.2f%%", accuracy * 100));
-
-		} catch (IOException e) {
-			System.err.println("Error loading MNIST data: " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
