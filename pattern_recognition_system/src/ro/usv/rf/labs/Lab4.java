@@ -5,6 +5,8 @@ import ro.usv.rf.learningsets.SupervisedLearningSet;
 import ro.usv.rf.learningsets.UnsupervisedLearningSet;
 import ro.usv.rf.utils.DistanceUtils;
 
+import java.util.Arrays;
+
 import static ro.usv.rf.classifiers.Classifier_1NN.classifyAndDisplayResult;
 
 public class Lab4 {
@@ -59,6 +61,19 @@ public class Lab4 {
 
 	}
 
+	public static void demoPredict_1NN(){
+		String[] classNames = {"", "A", "B", "C"};
+		SupervisedLearningSet set = new SupervisedLearningSet("testexam_numeric.txt", classNames);
+		System.out.println("Loaded supervised learning set:\n" + set);
+
+		Classifier_1NN classifier = new Classifier_1NN();
+		classifier.train(set);
+		double[][] testPatterns = {{2, 4}, {4, 2}, {10, 5}, {5, 5}};
+		System.out.println("Predictions: ");
+		for (double[] pattern : testPatterns) {
+			System.out.println("Pattern: " + Arrays.toString(pattern) + " -> Class: " + set.getClassNames()[classifier.predict(pattern)]);
+		}
+	}
 	public static void main(String[] args) {
 		String separatorLine = "-------------------------------------------------------------";
 		// demo existing code
@@ -67,6 +82,8 @@ public class Lab4 {
 		demoSupervisedLearningSet();
 		System.out.println(separatorLine);
 		demoClassifier_1NN();
+		System.out.println(separatorLine);
+		demoPredict_1NN();
 	}
 
 }
