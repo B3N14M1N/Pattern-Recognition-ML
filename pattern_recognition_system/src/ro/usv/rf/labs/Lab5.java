@@ -51,6 +51,7 @@ public class Lab5 {
 		SupervisedLearningSet countyLearningSet = new SupervisedLearningSet("county_data.txt");
 		Classifier_KNN classifier_kNN = new Classifier_KNN(9, distance);
 		classifier_kNN.train(countyLearningSet);
+		classifier_kNN.setDebug(false);
 		double[][] testSets = new double[][]{{25.89, 47.56},
 				{24, 45.15},
 				{25.33, 45.44}
@@ -76,6 +77,7 @@ public class Lab5 {
 			Classifier_KNN classifier = new Classifier_KNN(k); // Euclidian Distance
 			// train classifier
 			classifier.train(supervisedSet);
+			classifier.setSelfTest(true);
 			// Self test evaluation
 			classifier.evaluateAccuracy(true);   // test with other patterns
 		}
