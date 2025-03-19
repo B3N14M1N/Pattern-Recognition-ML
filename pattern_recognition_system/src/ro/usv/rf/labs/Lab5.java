@@ -50,8 +50,10 @@ public class Lab5 {
 		FileUtils1.setinputFileValuesSeparator(","); // by default is white spaces
 		SupervisedLearningSet countyLearningSet = new SupervisedLearningSet("county_data.txt");
 		Classifier_KNN classifier_kNN = new Classifier_KNN(9, distance);
+		classifier_kNN.setDebug(false);
 		classifier_kNN.train(countyLearningSet);
-		double[][] testSets = new double[][]{{25.89, 47.56},
+		double[][] testSets = new double[][]{
+				{25.89, 47.56},
 				{24, 45.15},
 				{25.33, 45.44}
 		};

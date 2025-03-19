@@ -114,6 +114,7 @@ public class Classifier_KNNWithKDTree extends AbstractClassifier {
 	}
 
 	/**
+	 * Fully generated with Claude Sonnet 3.7
 	 * KD-Tree implementation for efficient nearest neighbor searches
 	 */
 	private class KDTree {
