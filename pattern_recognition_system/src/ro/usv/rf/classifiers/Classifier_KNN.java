@@ -10,6 +10,7 @@ public class Classifier_KNN extends AbstractClassifier {
 	IDistance d;
 	int k;
 	private boolean debug = true;
+	private boolean selfTest = false;
 
 	public Classifier_KNN(int k) {
 		super();
@@ -105,7 +106,7 @@ public class Classifier_KNN extends AbstractClassifier {
 		// Calculate distance from z to each training instance
 		for (int i = 0; i < n; i++) {
 			// Skip the pattern if it's the same as the one being classified (self-testing case)
-			if (isPatternEqual(z, X[i])) {
+			if (selfTest && isPatternEqual(z, X[i])) {
 				if (debug) {
 					System.out.println("Skipping X[" + i + "] as it appears to be the same pattern as z");
 				}
@@ -212,5 +213,13 @@ public class Classifier_KNN extends AbstractClassifier {
 
 	public void setDebug(boolean debug) {
 		this.debug = debug;
+	}
+
+	public boolean isSelfTest() {
+		return selfTest;
+	}
+
+	public void setSelfTest(boolean selfTest) {
+		this.selfTest = selfTest;
 	}
 }
